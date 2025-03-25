@@ -6,7 +6,7 @@ import io
 
 # Função para carregar a imagem
 def carregar_imagem():
-    caminho_imagem = filedialog.askopenfilename(filetypes=[("Arquivos de imagem", "*.jpg;*.jpeg;*.png")])
+    caminho_imagem = filedialog.askopenfilename(filetypes=[("print", ".png")])
     if caminho_imagem:
         img = Image.open(caminho_imagem)
         img.thumbnail((200, 200))  # Redimensiona a imagem para exibir na interface
@@ -14,7 +14,7 @@ def carregar_imagem():
 
         # Atualiza o rótulo com a imagem original
         label_imagem_original.config(image=img_tk)
-        label_imagem_original.image = img_tk
+        label_imagem_original.image = img_tk  # Mantém a referência da imagem
         return caminho_imagem
     return None
 
@@ -38,7 +38,7 @@ def enviar_imagem():
 
                 # Atualiza a imagem modificada na interface
                 label_imagem_modificada.config(image=img_tk)
-                label_imagem_modificada.image = img_tk
+                label_imagem_modificada.image = img_tk  # Mantém a referência da imagem
             else:
                 messagebox.showerror("Erro", "Erro ao processar a imagem no servidor.")
         except Exception as e:
@@ -46,7 +46,7 @@ def enviar_imagem():
     else:
         messagebox.showwarning("Aviso", "Por favor, selecione uma imagem para enviar.")
 
-#Criando a interface gráfica
+# Criando a interface gráfica
 root = tk.Tk()
 root.title("Cliente - Envio de Imagem")
 
