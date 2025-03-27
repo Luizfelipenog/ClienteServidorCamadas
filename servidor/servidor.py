@@ -2,6 +2,8 @@ from flask import Flask, request, send_file, jsonify
 from PIL import Image, ImageFilter
 import io
 import os
+import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -29,6 +31,73 @@ def aplicar_filtro(img, tipo_filtro):
         print(f"Erro ao aplicar o filtro: {e}")
         raise
 
+# Função para salvar metadados no banco de dados SQLite
+def salvar_metadados(nome_imagem, filtro, datahora):
+    try:
+        # Conecta ao banco de dados SQLite
+        conn = sqlite3.connect('metadados_imagens.db')
+        c = conn.cursor()
+
+        # Cria a tabela se não existir
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS metadados (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome_imagem TEXT,
+                filtro_aplicado TEXT,
+                datahora TEXT
+            )
+        ''')
+
+        # Insere os metadados na tabela
+        c.execute('''
+            INSERT INTO metadados (nome_imagem, filtro_aplicado, datahora)
+            VALUES (?, ?, ?)
+        ''', (nome_imagem, filtro, datahora))
+
+        # Salva (commita) as alterações e fecha a conexão
+        conn.commit()
+        conn.close()
+
+    except Exception as e:
+        print(f"Erro ao salvar metadados: {e}")
+
+# Função para buscar os metadados do banco de dados
+@app.route('/metadados', methods=['GET'])
+def get_metadados():
+    try:
+        # Conecta ao banco de dados SQLite
+        conn = sqlite3.connect('metadados_imagens.db')
+        c = conn.cursor()
+
+        # Consulta todos os metadados
+        c.execute('SELECT * FROM metadados')
+        metadados = c.fetchall()
+
+        # Fecha a conexão
+        conn.close()
+
+        # Se não houver metadados, retorna uma mensagem informando
+        if not metadados:
+            return jsonify({"message": "Nenhum metadado encontrado."}), 404
+
+        # Converte os dados em um formato legível (lista de dicionários)
+        metadados_lista = []
+        for row in metadados:
+            metadados_lista.append({
+                'id': row[0],
+                'nome_imagem': row[1],
+                'filtro_aplicado': row[2],
+                'datahora': row[3]
+            })
+
+        # Retorna os metadados como resposta JSON
+        return jsonify(metadados_lista), 200
+
+    except Exception as e:
+        # Se ocorrer algum erro, retorna um erro genérico com a mensagem de erro
+        print(f"Erro ao buscar metadados: {e}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/processar_imagem', methods=['POST'])
 def processar_imagem():
     try:
@@ -46,14 +115,17 @@ def processar_imagem():
         # Aplica o filtro selecionado
         img = aplicar_filtro(img, filtro)
 
+        # Nome da imagem (pode usar o nome original ou gerar um nome único)
+        nome_imagem = f"imagem_{datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+        
         # Caminho para salvar a imagem processada
-        imagem_salva_path = os.path.join(OUTPUT_DIR, 'imagem_processada.png')
+        imagem_salva_path = os.path.join(OUTPUT_DIR, nome_imagem)
 
         # Salva a imagem no diretório de saída
         img.save(imagem_salva_path, 'PNG')
 
-        # Retorna uma mensagem de sucesso com o caminho do arquivo
-        print(f"Imagem processada com sucesso! Imagem salva em: {imagem_salva_path}")
+        # Salvar metadados no banco de dados
+        salvar_metadados(nome_imagem, filtro, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
         # Converte a imagem modificada para um formato de resposta (PNG)
         img_io = io.BytesIO()
