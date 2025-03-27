@@ -58,14 +58,7 @@ Este projeto consiste em duas partes: o servidor e o cliente. O servidor recebe 
 2. **Enviar Imagens**:
    - O cliente pode enviar uma imagem para o servidor, que será processada e, em seguida, a imagem processada será retornada como resposta.
 
-### 3. Como Testar a Aplicação
 
-1. **Teste o servidor**:
-   - Após iniciar o servidor, o servidor deverá estar escutando na porta **5000**. Você pode testar isso acessando o servidor via navegador ou utilizando ferramentas como **Postman** ou **cURL**.
-   
-   Exemplo de teste com `cURL`:
-   ```bash
-   curl -X POST -F "file=@imagem.jpg" http://<IP_PUBLICO_DO_SERVIDOR>:5000/processar_imagem
 
 ### Escolher a Imagem
 ![image](https://github.com/user-attachments/assets/260c3d51-3c83-4cc2-8968-f102569e7e16)
