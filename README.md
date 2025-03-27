@@ -71,14 +71,13 @@ Escolher a imagem
    ![image](https://github.com/user-attachments/assets/260c3d51-3c83-4cc2-8968-f102569e7e16)
 
 Selecionar 
-![image](https://github.com/user-attachments/assets/5fd01f8a-259a-4bc4-9990-992e28b85f40)
-
+  ![image](https://github.com/user-attachments/assets/5fd01f8a-259a-4bc4-9990-992e28b85f40)
 
 Enviar imagem 
-![image](https://github.com/user-attachments/assets/57679dd4-55e9-4072-be1d-8a705db717fe)
+  ![image](https://github.com/user-attachments/assets/57679dd4-55e9-4072-be1d-8a705db717fe)
 
 Imagem processada 
-![image](https://github.com/user-attachments/assets/5139a2e8-bd3b-4208-8f04-0869f173cf32)
+  ![image](https://github.com/user-attachments/assets/5139a2e8-bd3b-4208-8f04-0869f173cf32)
 
 
 
