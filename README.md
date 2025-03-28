@@ -1,4 +1,4 @@
-# Cliente-Servidor de Processamento de Imagens
+# Cliente-Servidor Com Processamento de Imagens
 
 Este projeto implementa um sistema **cliente-servidor** onde o **cliente** envia imagens para o **servidor**, que as processa com filtros de imagem e salva os metadados (como nome da imagem, filtro aplicado e data/hora) em um banco de dados **SQLite**. O servidor é implementado utilizando o framework **Flask**, e a comunicação entre o cliente e o servidor é feita via **HTTP**.
 
@@ -49,11 +49,12 @@ Este projeto consiste em duas partes: o servidor e o cliente. O servidor recebe 
 
 1. **Execute o cliente.py**:
    - O cliente envia as imagens para o servidor via HTTP. Para rodar o cliente, execute o seguinte código:
-     ```python
+     ```bash
+     python3 cliente.py
 
      ```
-     - Substitua `<IP_PUBLICO_DO_SERVIDOR>` pelo IP público do servidor ou pelo IP da máquina na mesma rede local.
-     - O cliente enviará uma imagem (`imagem.jpg`) para o servidor processá-la.
+     - Substitua ` pelo IP público do servidor ou pelo IP da máquina na mesma rede local.
+     - O cliente enviará uma imagem (`imagem.png`) para o servidor processá-la.
 
 2. **Enviar Imagens**:
    - O cliente pode enviar uma imagem para o servidor, que será processada e, em seguida, a imagem processada será retornada como resposta.

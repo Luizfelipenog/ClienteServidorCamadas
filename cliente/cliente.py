@@ -27,8 +27,8 @@ def enviar_imagem():
         try:
             with open(imagem_path, 'rb') as f:
                 imagem_bytes = f.read()
-            url = 'http://[2804:29b8:519f:ac85:9312:296b:de78:8842]:5000/processar_imagem'
-            #url = 'http://localhost:5000/processar_imagem' 
+          #  url = 'http://10.180.45.144:5000/processar_imagem'
+            url = 'http://10.180.41.198:5000/processar_imagem' 
             files = {'file': (imagem_path, imagem_bytes, 'image/jpeg')}
             response = requests.post(url, files=files)
 
